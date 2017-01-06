@@ -1,9 +1,12 @@
 # docker-plaso
 Docker container for plaso supertimlining tool
 
+Now with cdqr from https://github.com/rough007/CDQR
+
+
 ## Usage
 ```
- docker run --rm -ti --name jbeley/plaso  -v /data:/data affcb7f8fbd4
+ docker run --rm -ti -v /data:/data jbeley/plaso
 ```
 
 
