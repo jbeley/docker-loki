@@ -30,3 +30,5 @@ INSTALL_RECEIPT.json
 
 # Ignore VirtualEnv
 venv/*
+
+make_env
