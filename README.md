@@ -1,7 +1,6 @@
 # docker-plaso
 Docker container for plaso supertimlining tool
 
-~~Now with cdqr from https://github.com/rough007/CDQR~~
 
 
 ## Usage
@@ -15,3 +14,7 @@ Docker container for plaso supertimlining tool
 
 ## Plaso's license
 see https://github.com/log2timeline/plaso/wiki/Licenses-dependencies
+
+## Credits
+http://jmkhael.io/makefiles-for-your-dockerfiles/
+https://github.com/jessfraz/dockerfiles
