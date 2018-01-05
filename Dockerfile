@@ -19,7 +19,7 @@ RUN apt-get -qq -y update && \
             elasticsearch \
             timesketch
 
-RUN apt-get -qq -y clean \
+RUN apt-get -qq -y clean && \
     apt-get remove -qq -y \
         gir1.2-glib-2.0 \
         libdbus-glib-1-2 \
@@ -93,7 +93,7 @@ RUN apt-get -qq -y clean \
 	python3-software-properties \
 	python3.5 \
 	python3.5-minimal \
-	software-properties-common 
+	software-properties-common
 
 
 RUN apt-get -qq -y autoremove
