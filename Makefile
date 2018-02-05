@@ -15,6 +15,13 @@ build: Dockerfile
 build-arm: Dockerfile.arm
 	docker build -t $(NS)/rpi-$(IMAGE_NAME):$(VERSION) -f Dockerfile.arm .
 
+hub-build: Dockerfile
+	curl -H "Content-Type: application/json" --data '{"build": true}' -X POST ${hub_url}
+
+git-push:
+	git commit && \
+		git push
+
 push:
 	docker push $(NS)/$(IMAGE_NAME):$(VERSION)
 
