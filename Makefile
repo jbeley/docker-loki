@@ -10,7 +10,7 @@ CONTAINER_INSTANCE ?= default
 .PHONY: build build-arm push push-arm shell shell-arm run run-arm start start-arm stop stop-arm rm rm-arm release release-arm
 
 build: Dockerfile
-	docker build -t $(NS)/$(IMAGE_NAME):$(VERSION) --build-arg http_proxy=${http_proxy} -f Dockerfile .
+	docker build -t $(NS)/$(IMAGE_NAME):$(VERSION) -f Dockerfile .
 
 build-arm: Dockerfile.arm
 	docker build -t $(NS)/rpi-$(IMAGE_NAME):$(VERSION) -f Dockerfile.arm .
@@ -33,6 +33,9 @@ shell:
 
 shell-arm:
 	docker run --rm --name rpi-$(CONTAINER_NAME)-$(CONTAINER_INSTANCE) -i -t $(PORTS) $(VOLUMES) $(ENV) $(NS)/rpi-$(IMAGE_NAME):$(VERSION) /bin/bash
+
+shell-root:
+	docker run -u root --rm --name $(CONTAINER_NAME)-$(CONTAINER_INSTANCE) -i -t $(PORTS) $(VOLUMES) $(ENV) $(NS)/$(IMAGE_NAME):$(VERSION) /bin/bash
 
 run:
 	docker run --rm --name $(CONTAINER_NAME)-$(CONTAINER_INSTANCE) $(PORTS) $(VOLUMES) $(ENV) $(NS)/$(IMAGE_NAME):$(VERSION)
@@ -63,5 +66,22 @@ release: build
 
 release-arm: build-arm
 	make push-arm -e VERSION=$(VERSION)
+
+test: log2timeline psort pinfo
+
+log2timeline:
+	docker run --rm -it -v ~/Downloads:/data -v /tmp:/output jbeley/plaso  log2timeline.py \
+		--artifact_definitions /usr/share/artifacts --data /usr/share/plaso --parsers all \
+		--parsers all --partitions all --vss_stores all --logfile /output/WinXP2.plaso.log --status_view none -q  \
+		/output/WinXP2.pb /data/WinXP2.E01
+psort:
+	docker run --rm -it -v /tmp:/output jbeley/plaso  psort.py -o json_line -w /output/WinXP2.json  /output/WinXP2.pb \
+		--logfile /output/WinXP2.psort.log --status_view none -q
+pinfo:
+	docker run --rm -it -v /tmp:/output jbeley/plaso  pinfo.py --output_format json -w /output/WinXP2-pinfo.json  /output/WinXP2.pb
+
+cdqr:
+	docker run --rm -it -v ~/Downloads:/data -v  /tmp:/output jbeley/plaso  /usr/bin/cdqr.py --max_cpu  /data/WinXP2.E01 /output/cdqr/
+
 
 default: build
