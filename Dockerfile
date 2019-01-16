@@ -12,6 +12,7 @@ RUN apt-get -qq -y update && \
         apt-get -qq -y --force-yes --no-install-recommends install \
             python-setuptools \
             curl \
+            python-lzma \
             python-plaso \
             plaso-tools \
             python3 \
