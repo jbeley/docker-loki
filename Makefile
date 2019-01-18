@@ -38,20 +38,11 @@ start:
 stop:
 	docker stop $(CONTAINER_NAME)-$(CONTAINER_INSTANCE)
 
-stop-arm:
-	docker stop rpi-$(CONTAINER_NAME)-$(CONTAINER_INSTANCE)
-
 rm:
 	docker rm $(CONTAINER_NAME)-$(CONTAINER_INSTANCE)
 
-rm-arm:
-	docker rm rpi-$(CONTAINER_NAME)-$(CONTAINER_INSTANCE)
-
 release: build
 	make push -e VERSION=$(VERSION)
-
-release-arm: build-arm
-	make push-arm -e VERSION=$(VERSION)
 
 test: cdqr psort-analysis psort  psort-csv pinfo
 
