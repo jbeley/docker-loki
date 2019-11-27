@@ -1,5 +1,5 @@
-# docker-loki
-Docker container for loki IOC scanner
+# docker-plaso
+Docker container for plaso supertimlining tool
 
 ## Building
 The following `make` targets are availible
@@ -14,14 +14,16 @@ The following `make` targets are availible
 |**test**|run all tests|
 
 ## Usage
-To run a Loki YARA scan against the contents of $YOUR_DATA_DIR:
 ```
-docker run -v $YOUR_DATA_DIR:/data/ -u root -it jbeley/loki python loki.py -p /data/
+ docker run --rm -ti -v /data:/data jbeley/plaso
+ log2timeline.py --data /usr/share/plaso/ --artifact_definitions \
+ /usr/share/artifacts/  --hashers md5 --vss_stores all --partitions all \
+ /tmp/WinXP.pb /data/WinXP2.E01
 ```
 
 
-## loki's license
-see https://github.com/Neo23x0/Loki/blob/master/LICENSE
+## Plaso's license
+see https://github.com/log2timeline/plaso/wiki/Licenses-dependencies
 
 ## Credits
 
