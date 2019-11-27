@@ -3,7 +3,12 @@ Docker container for plaso supertimlining tool
 
 ## Usage
 ```
- docker run --rm -ti --name jbeley/plaso  -v /data:/data affcb7f8fbd4
+docker run --rm  -v YOUR_DATA_DIR:/data/ -u root -it jbeley/plaso:20190916 \
+   log2timeline.py --status_view linear --parsers YOUR_PARSER_LIST /data/PLASOFILE.pb  /data/YOUR_INPUT
+
+
+
+docker run -v YOUR_DATA_DIR:/data/ -u root -it jbeley/plaso:20190916 psort.py -o json_line -w YOUR_OUTPUT.json /data/PLASOFILE.pb
 ```
 
 
