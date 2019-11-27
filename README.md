@@ -25,19 +25,9 @@ The following `make` targets are availible
 
 ## Usage
 ```
-<<<<<<< HEAD
 docker run --rm  -v YOUR_DATA_DIR:/data/ -u root -it jbeley/plaso:20190916 \
    log2timeline.py --status_view linear --parsers YOUR_PARSER_LIST /data/PLASOFILE.pb  /data/YOUR_INPUT
-
-
-
 docker run -v YOUR_DATA_DIR:/data/ -u root -it jbeley/plaso:20190916 psort.py -o json_line -w YOUR_OUTPUT.json /data/PLASOFILE.pb
-=======
- docker run --rm -ti -v /data:/data jbeley/plaso
- log2timeline.py --data /usr/share/plaso/ --artifact_definitions \
- /usr/share/artifacts/  --hashers md5 --vss_stores all --partitions all \
- /tmp/WinXP.pb /data/WinXP2.E01
->>>>>>> ca21e97728be2bec25193a35202ec6b04799028f
 ```
 
 
