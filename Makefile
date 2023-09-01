@@ -6,11 +6,14 @@ VERSION ?= latest
 IMAGE_NAME ?= loki
 CONTAINER_NAME ?= loki
 CONTAINER_INSTANCE ?= default
-VOLUMES=-v ~/Downloads/:/data:cached -v /tmp:/output:cached
+VOLUMES=-v ~/Downloads/:/data:cached -v /tmp:/output:cached -v /mnt5:/input
 .PHONY: build push shell run start stop rm release
 
 build: Dockerfile
 	docker build -t $(NS)/$(IMAGE_NAME):$(VERSION) -f Dockerfile .
+
+build-nocache: Dockerfile
+	docker build --no-cache -t $(NS)/$(IMAGE_NAME):$(VERSION) -f Dockerfile .
 
 build-arm: Dockerfile.arm
 	docker build -t $(NS)/rpi-$(IMAGE_NAME):$(VERSION) -f Dockerfile.arm .
@@ -26,10 +29,10 @@ push:
 	docker push $(NS)/$(IMAGE_NAME):$(VERSION)
 
 shell:
-	docker run --rm --name $(CONTAINER_NAME)-$(CONTAINER_INSTANCE) -i -t $(PORTS) $(VOLUMES) $(ENV) $(NS)/$(IMAGE_NAME):$(VERSION) /bin/bash
+	docker run --rm --name $(CONTAINER_NAME)-$(CONTAINER_INSTANCE) -i -t $(PORTS) $(VOLUMES) $(ENV) $(NS)/$(IMAGE_NAME):$(VERSION) /bin/sh
 
 shell-root:
-	docker run -u root --rm --name $(CONTAINER_NAME)-$(CONTAINER_INSTANCE) -i -t $(PORTS) $(VOLUMES) $(ENV) $(NS)/$(IMAGE_NAME):$(VERSION) /bin/bash
+	docker run -u root --rm --name $(CONTAINER_NAME)-$(CONTAINER_INSTANCE) -i -t $(PORTS) $(VOLUMES) $(ENV) $(NS)/$(IMAGE_NAME):$(VERSION) /bin/sh
 
 run:
 	docker run --rm --name $(CONTAINER_NAME)-$(CONTAINER_INSTANCE) $(PORTS) $(VOLUMES) $(ENV) $(NS)/$(IMAGE_NAME):$(VERSION)

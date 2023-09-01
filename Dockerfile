@@ -1,4 +1,4 @@
-FROM python:2.7-alpine
+FROM python:3-alpine
 
 MAINTAINER @jbeley
 
@@ -9,7 +9,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK on
 RUN apk update && \
     apk add --no-cache -t .build-deps \
       openssl-dev \
-      python-dev \
+      python3-dev \
       build-base \
       zlib-dev \
       libc-dev \
@@ -21,8 +21,12 @@ RUN apk update && \
       libtool \
       libmagic \
       git \
-      flex && \
-      git clone --recursive https://github.com/VirusTotal/yara.git /tmp/yara && \
+      bison \
+      flex
+
+
+     # && \
+      RUN git clone --recursive https://github.com/VirusTotal/yara.git /tmp/yara && \
       cd /tmp/yara && \
       ./bootstrap.sh && \
       sync && \
@@ -35,7 +39,12 @@ RUN apk update && \
 
 WORKDIR /loki
 
-RUN python /loki/loki.py --update
+RUN pip install -r /loki/requirements.txt
+
+RUN python /loki/loki-upgrader.py
+
+RUN adduser -D -s /bin/sh loki
+
 
 
 VOLUME ["/data"]
